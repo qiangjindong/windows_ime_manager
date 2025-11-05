@@ -6,3 +6,5 @@
 #include <map>
 
 bool imeSetup(const std::string &methodName);
+
+void restoreKeyboardLayout();

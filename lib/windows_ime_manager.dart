@@ -28,4 +28,10 @@ class WindowsImeManager {
         ? WindowsImeManagerPlatform.instance.setLanguageIme(languageIme)
         : Future.value(null);
   }
+
+  Future<void> restoreKeyboardLayout() {
+    return !kIsWeb && Platform.isWindows
+        ? WindowsImeManagerPlatform.instance.restoreKeyboardLayout()
+        : Future.value(null);
+  }
 }

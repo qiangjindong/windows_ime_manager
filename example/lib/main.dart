@@ -88,7 +88,9 @@ class _MyAppState extends State<MyApp> {
                 ),
                 const SizedBox(height: 40),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _windowsImeManagerPlugin.restoreKeyboardLayout();
+                  },
                   child: const Text('Submit'),
                 ),
               ],

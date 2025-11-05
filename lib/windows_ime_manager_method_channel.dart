@@ -35,4 +35,9 @@ class MethodChannelWindowsImeManager extends WindowsImeManagerPlatform {
         .invokeMethod<String>(languageImeToMethod[languageIme]);
     return version;
   }
+
+  @override
+  Future<void> restoreKeyboardLayout() {
+    return methodChannel.invokeMethod('restoreKeyboardLayout');
+  }
 }

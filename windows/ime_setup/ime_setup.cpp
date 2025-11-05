@@ -1,5 +1,16 @@
 #include "ime_setup.h"
 
+#include <iostream>
+#include <vector>
+
+std::vector<HKL> loadedLayouts;
+HKL previousLayout = NULL;
+
+void saveInitialKeyboardLayout()
+{
+    previousLayout = GetKeyboardLayout(0);
+}
+
 bool imeSetup(const std::string &methodName)
 {
 
@@ -39,6 +50,9 @@ bool imeSetup(const std::string &methodName)
     std::string languageName = languageNames[methodName];
     std::string languageCode = languageCodes[languageName];
 
+    if (previousLayout == NULL)
+        saveInitialKeyboardLayout();
+
     std::wstring wstr = std::wstring(languageCode.begin(), languageCode.end());
     LPCWSTR lwstr = wstr.c_str();
     HKL languageIME = LoadKeyboardLayout(lwstr, KLF_ACTIVATE);
@@ -47,6 +61,8 @@ bool imeSetup(const std::string &methodName)
         std::cout << "Failed to load " << languageName << " IME" << std::endl;
         return false;
     }
+
+    loadedLayouts.push_back(languageIME);
 
     if (!ActivateKeyboardLayout(languageIME, 0))
     {
@@ -87,4 +103,17 @@ bool imeSetup(const std::string &methodName)
     ImmSetOpenStatus(himc, true);
     ImmReleaseContext(hwnd, himc);
     return true;
+}
+
+void restoreKeyboardLayout()
+{
+    if (!previousLayout)
+      return;
+
+    ActivateKeyboardLayout(previousLayout, 0);
+
+    for (HKL layout : loadedLayouts)
+        UnloadKeyboardLayout(layout);
+      
+    loadedLayouts.clear();
 }

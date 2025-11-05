@@ -27,4 +27,8 @@ abstract class WindowsImeManagerPlatform extends PlatformInterface {
   Future<String?> setLanguageIme(LanguageIme languageIme) {
     throw UnimplementedError('languageIme() has not been implemented.');
   }
+
+  Future<void> restoreKeyboardLayout() {
+    throw UnimplementedError('restoreKeyboardLayout() has not been implemented.');
+  }
 }
